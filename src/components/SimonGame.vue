@@ -44,6 +44,11 @@
 </template>
 
 <script>
+import audio_0 from '@sound/0.ogg'
+import audio_1 from '@sound/1.ogg'
+import audio_2 from '@sound/2.ogg'
+import audio_3 from '@sound/3.ogg'
+
 import Button from '@components/Button'
 import RadioInput from '@components/RadioInput'
 
@@ -99,7 +104,13 @@ export default {
 			level: 'easy',
 			isGameOn: false,
 			isUserFail: false,
-			isHighlighting: false
+			isHighlighting: false,
+			audiosArray: [
+				audio_0,
+				audio_1,
+				audio_2,
+				audio_3
+			]
 		}
 	},
 	computed: {
@@ -130,13 +141,17 @@ export default {
 		},
 	},
 	methods: {
+		playAudio(index) {
+			const audio = new Audio(this.audiosArray[index])
+			audio.play()
+		},
 		getRandomNumber() {
-			return Math.floor(Math.random() * Math.floor(this.sectorsInit.length)); //+1
+			return Math.floor(Math.random() * Math.floor(this.sectorsInit.length));
 		},
 		setLevel(value) {
 			this.clearUserSelectedSectors();
 			this.level = value;
-			this.highlightSectors();
+			if (this.isGameOn) this.highlightSectors();
 		},
 		setIsGameOn(value) {
 			this.isGameOn = value;
@@ -160,6 +175,7 @@ export default {
 			this.sectors.forEach(sector => {
 				if (sector.id === value) {
 					this.sectors[sector.id].isHighlighted = true
+					this.playAudio(sector.id)
 					setTimeout(() => {
 						this.sectors[sector.id].isHighlighted = false
 					}, this.timeout / 2 * 1000)
@@ -201,13 +217,14 @@ export default {
 			const {gameSelectedSectorsArray: gameSelectedArray,
 				userSelectedSectorsArray: userSelectedArray,
 				isHighlighting, isGameOn,
+				playAudio,
 				setUserSelectedSectors,
 				setIsUserFail,
 				startNextRound} = this;
 			if (isHighlighting || !isGameOn) return;
+			playAudio(sectorId)
 			setUserSelectedSectors(sectorId)
 			setIsUserFail(sectorId)
-
 			if (!this.isUserFail &&
 				gameSelectedArray.length === userSelectedArray.length) {
 				startNextRound()

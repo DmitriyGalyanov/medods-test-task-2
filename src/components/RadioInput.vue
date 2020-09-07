@@ -62,7 +62,7 @@ export default {
 		},
 		didSubmitAttempt: {
 			type: Boolean,
-			default: false //true ??
+			default: false
 		}
 	},
 	data() {
@@ -81,8 +81,6 @@ export default {
 
 <style lang="scss" scoped>
 .radioButtonsWrap {
-	// min-width: 250px;
-	// max-width: 320px;
 	.requiredAlert {
 		margin-bottom: 2px;
 		color: $gradientColor;
@@ -106,9 +104,6 @@ export default {
 		gap: 10px;
 		.label {
 			cursor: pointer;
-			// &:not(:first-child) {
-			// 	margin-left: 20px;
-			// }
 			display: flex; align-items: center;
 			font-size: 14px; color: $text_primary;
 			.button {
