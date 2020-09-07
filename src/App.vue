@@ -1,16 +1,16 @@
 <template>
 	<div id="app">
-		<SimonCircle/>
+		<SimonGame/>
 	</div>
 </template>
 
 <script>
-import SimonCircle from '@components/SimonCircle'
+import SimonGame from '@components/SimonGame'
 
 export default {
 	name: 'App',
 	components: {
-		SimonCircle
+		SimonGame
 	}
 }
 </script>
@@ -29,9 +29,9 @@ body, p, h1, h2, h3, h4, h5, h6, ul, li {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	max-width: 940px;
+	width: fit-content;
 	margin: 0 auto;
-	border: 1px solid black;
+	border: 1px solid $secondSector_color;
 	border-radius: 4px;
 	padding: 8px;
 }

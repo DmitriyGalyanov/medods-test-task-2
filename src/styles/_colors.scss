@@ -2,3 +2,11 @@ $firstSector_color: #BC9CFF;
 $secondSector_color: #6FCF97;
 $thirdSector_color: #8BA4F9;
 $fourthSector_color: #fa62ff;
+
+$primaryColor: #BC9CFF;
+$darkShadeColor: #1f2041;
+$gradientColor: #8BA4F9;
+
+$text_primary: transparentize($darkShadeColor, 0.25);
+
+$softErrorText: rgb(250, 98, 255);
