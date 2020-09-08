@@ -18,18 +18,24 @@
 		<div class="infoAndControls">
 			<p v-if="!isUserFail"
 				class="roundNumber">
-				Round: {{roundNumber}}
+				Раунд: {{roundNumber}}
 			</p>
 			<div @click="startTheGame">
 				<Button v-if="!isGameOn"
 					type="button"
 					filled
-					label="Start the game!"/>
+					label="Начать игру"/>
 			</div>
 			<p v-if="isUserFail"
 				class="lossAlert">
-				You lost at round {{roundNumber}}
+				Вы проиграли в {{roundNumber}} раунде
 			</p>
+			<div @click="setLevel(level)">
+				<Button v-if="isGameOn"
+					type="button"
+					hollow
+					label="Повторить последовательность"/>
+			</div>
 			<div class="setLevelButtons">
 				<RadioInput
 					flex_column
@@ -284,6 +290,9 @@ export default {
 			}
 			&:hover {
 				opacity: 1;
+				@media (hover: none) {
+					opacity: 0.7;
+				}
 			}
 		}
 	}
@@ -296,5 +305,4 @@ export default {
 		}
 	}
 }
-
 </style>
