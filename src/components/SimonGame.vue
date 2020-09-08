@@ -88,7 +88,7 @@ export default {
 					},
 					{
 						name: 'en',
-						nameLocale: 'Английский'
+						nameLocale: 'English'
 					}
 				]
 			},

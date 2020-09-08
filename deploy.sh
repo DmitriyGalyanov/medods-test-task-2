@@ -4,9 +4,9 @@ npm run build
 
 cd dist
 
-git init
+# git init
 git add -A
-git commit -m 'v0.2.3'
+git commit -m 'v0.2.4'
 
 git push -f git@github.com:dmitriygalyanov/medods-test-task-2.git master:gh-pages
 
