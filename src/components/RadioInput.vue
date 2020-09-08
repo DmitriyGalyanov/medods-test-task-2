@@ -25,7 +25,7 @@
 						didSubmitAttempt && !value
 				}"
 			>
-				{{button.nameLocaleRu}}
+				{{button.nameLocale}}
 				<input class="button" type="radio"
 					tabindex="-1"
 					:name="name" :value="button.name"
@@ -92,13 +92,9 @@ export default {
 	.buttonsWrap {
 		display: flex;
 		&_flex-row {
-			min-width: 250px;
-			max-width: 320px;
 			flex-direction: row;
-			justify-content: space-around;
 		}
 		&_flex-column {
-			
 			flex-direction: column;
 		}
 		gap: 10px;

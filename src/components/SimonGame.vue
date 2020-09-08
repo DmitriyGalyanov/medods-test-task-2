@@ -16,25 +16,35 @@
 			</div>
 		</div>
 		<div class="infoAndControls">
+			<div class="setLevelButtons">
+				<RadioInput
+					flex_row
+					:name="languageButtons.name"
+					:buttons="languageButtons.buttons"
+					:defaultValue="languageButtons.value"
+					@update-input-data="setLanguage"
+				/>
+			</div>
 			<p v-if="!isUserFail"
 				class="roundNumber">
-				Раунд: {{roundNumber}}
+				{{languagesLocales.round}}: {{roundNumber}}
 			</p>
 			<div @click="startTheGame">
 				<Button v-if="!isGameOn"
 					type="button"
 					filled
-					label="Начать игру"/>
+					:label="languagesLocales.startTheGameButtonLabel"/>
 			</div>
 			<p v-if="isUserFail"
 				class="lossAlert">
-				Вы проиграли в {{roundNumber}} раунде
+				{{languagesLocales.youLostAlert}}
 			</p>
-			<div @click="setLevel(level)">
+			<div @click="repeatHighlight">
 				<Button v-if="isGameOn"
+					:disabled="isHighlighting"
 					type="button"
 					hollow
-					label="Повторить последовательность"/>
+					:label="languagesLocales.repeatHighlightButtonLabel"/>
 			</div>
 			<div class="setLevelButtons">
 				<RadioInput
@@ -66,22 +76,19 @@ export default {
 	},
 	data() {
 		return {
-			levelButtons: {
-				name: 'level',
-				value: 'easy',
+			language: 'ru',
+			languageButtons: {
+				name: 'language',
+				value: 'ru',
 				buttons: [
 					{
-						name: 'easy',
-						nameLocaleRu: 'легко'
+						name: 'ru',
+						nameLocale: 'Русский'
 					},
 					{
-						name: 'medium',
-						nameLocaleRu: 'нормально'
-					},
-					{
-						name: 'hard',
-						nameLocaleRu: 'сложно'
-					},
+						name: 'en',
+						nameLocale: 'Английский'
+					}
 				]
 			},
 			sectorsInit: [
@@ -120,6 +127,56 @@ export default {
 		}
 	},
 	computed: {
+		languagesLocales() {
+			const {languageButtons, roundNumber} = this;
+			switch(languageButtons.value) { //try [languageButtons.value]: language
+				case 'ru': return {
+					round: 'Раунд',
+					startTheGameButtonLabel: 'Начать игру',
+					youLostAlert: `Вы проиграли в ${roundNumber} раунде`,
+					repeatHighlightButtonLabel: 'Повторить последовательность',
+					levels: {
+						easy: 'легко',
+						medium: 'средне',
+						hard: 'сложно'
+					},
+				}
+				case 'en': return {
+					round: 'Round',
+					startTheGameButtonLabel: 'Start the game',
+					youLostAlert: `You lost in ${roundNumber} round`,
+					repeatHighlightButtonLabel: 'Repeat highlight',
+					levels: {
+						easy: 'easy',
+						medium: 'medium',
+						hard: 'hard'
+					},
+				}
+				default: return {
+					round: 'Раунд',
+					startTheGameButtonLabel: 'Начать игру',
+					youLostAlert: `Вы проиграли в ${roundNumber} раунде`,
+					repeatHighlightButtonLabel: 'Повторить последовательность',
+					levels: {
+						easy: 'легко',
+						medium: 'средне',
+						hard: 'сложно'
+					},
+				}
+			}
+		},
+		levelButtons() {
+			return {
+				name: 'level',
+				value: 'easy',
+				buttons: Object.entries(this.languagesLocales.levels).map(level => {
+				const [name, nameLocale] = level
+				return ({
+					name: name,
+					nameLocale: nameLocale
+				})
+			})}
+		},
 		timeout() {
 			switch(this.level) {
 				case 'easy': return 1.5
@@ -129,11 +186,9 @@ export default {
 			}
 		},
 		sectors() {
-			const data = [];
-			this.sectorsInit.forEach(sector => {
-				data.push(sector)
+			return this.sectorsInit.map(sector => {
+				return sector
 			})
-			return data;
 		},
 		gameSelectedSectorsArray() {
 			const data = []
@@ -147,6 +202,9 @@ export default {
 		},
 	},
 	methods: {
+		setLanguage(value) {
+			this.languageButtons.value = value;
+		},
 		playAudio(index) {
 			const audio = new Audio(this.audiosArray[index])
 			audio.play()
@@ -157,7 +215,7 @@ export default {
 		setLevel(value) {
 			this.clearUserSelectedSectors();
 			this.level = value;
-			if (this.isGameOn) this.highlightSectors();
+			if (this.isGameOn && !this.isHighlighting) this.highlightSectors();
 		},
 		setIsGameOn(value) {
 			this.isGameOn = value;
@@ -202,6 +260,11 @@ export default {
 				this.setIsHighlighting(false);
 			}, timeout * 1000 * (gameSelectedSectorsArray.length + 0.6))
 		},
+		repeatHighlight() {
+			if (this.isHighlighting) return;
+			this.clearUserSelectedSectors();
+			this.highlightSectors();
+		},
 		setUserSelectedSectors(value) {
 			this.userSelectedSectorsArray.push(value)
 		},
@@ -242,6 +305,7 @@ export default {
 
 <style lang="scss" scoped>
 .simonGameWrap {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

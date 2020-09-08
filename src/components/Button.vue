@@ -1,9 +1,11 @@
 <template>
 	<button
+		:disabled="disabled"
 		:class="{
 			button: true,
 			button_filled: filled,
-			button_hollow: hollow
+			button_hollow: hollow,
+			button_disabled: disabled
 			}"
 		:type="type"
 	>
@@ -23,6 +25,7 @@ export default {
 			type: String,
 			required: true
 		},
+		disabled: Boolean,
 		filled: Boolean,
 		hollow: Boolean
 	}
