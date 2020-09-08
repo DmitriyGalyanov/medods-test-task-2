@@ -15,18 +15,21 @@
 			}"
 		>
 			<label v-for="button in buttons"
+				:disabled="disabled"
 				tabindex="0"
 				@keyup.enter="updateInputData(button.name)"
 				:key="button.name"
 				:for="button.name"
 				:class="{
 					label: true,
+					label_disabled: disabled,
 					label_error: isRequired &&
 						didSubmitAttempt && !value
 				}"
 			>
 				{{button.nameLocale}}
 				<input class="button" type="radio"
+					:disabled="disabled"
 					tabindex="-1"
 					:name="name" :value="button.name"
 					:id="button.name"
@@ -44,6 +47,7 @@ export default {
 	props: {
 		flex_row: Boolean,
 		flex_column: Boolean,
+		disabled: Boolean,
 		name: {
 			type: String,
 			required: true
@@ -127,6 +131,10 @@ export default {
 					top: calc(50% - 6px);
 					right: calc(50% - 6px);
 				}
+			}
+			&_disabled {
+				opacity: 0.6;
+				cursor: default;
 			}
 			&_error {
 				color: $softErrorText;

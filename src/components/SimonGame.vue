@@ -49,6 +49,7 @@
 			<div class="setLevelButtons">
 				<RadioInput
 					flex_column
+					:disabled="isHighlighting"
 					:name="levelButtons.name"
 					:buttons="levelButtons.buttons"
 					:defaultValue="levelButtons.value"
