@@ -4,7 +4,7 @@ npm run build
 
 cd dist
 
-# git init
+git init
 git add -A
 git commit -m 'v0.2.4'
 
