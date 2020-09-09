@@ -1,3 +1,5 @@
-# medods-test-task-2
+### Vue JS Simon Game
 
-### [Vue JS Simon the Game](https://dmitriygalyanov.github.io/medods-test-task-2/ "Click to see deployed!")
+#### Current Version: 0.2.5
+
+### [Deployed](https://dmitriygalyanov.github.io/medods-test-task-2/ "Click to see deployed!")
