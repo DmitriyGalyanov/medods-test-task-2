@@ -107,13 +107,14 @@ export default {
 			display: flex; align-items: center;
 			font-size: 14px; color: $text_primary;
 			.button {
+				cursor: inherit;
 				-webkit-appearance: unset; margin: 0 10px 0 0;
 				display: block; position: relative;
 				height: 20px; width: 20px;
 				outline: none;
 				order: -1;
 				&::before {
-					cursor: pointer;
+					cursor: inherit;
 					content: ''; display: inherit;
 					margin-right: 10px;
 					width: 18px; height: 18px;
@@ -125,7 +126,7 @@ export default {
 				}
 				&:checked::after {
 					content: ''; display: inherit;
-					position: absolute; cursor: pointer;
+					position: absolute; cursor: inherit;
 					width: 12px; height: 12px;
 					background: linear-gradient(180deg, $primaryColor 0%, #8BA4F9 100%); border-radius: 50%;
 					top: calc(50% - 6px);

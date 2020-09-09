@@ -56,6 +56,12 @@
 					@update-input-data="setLevel"
 				/>
 			</div>
+			<div @click="tryLostRound">
+				<Button v-if="isUserFail"
+					type="button"
+					hollow
+					:label="languagesLocales.tryLostRoundButtonLabel"/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -133,8 +139,9 @@ export default {
 			switch(languageButtons.value) { //try [languageButtons.value]: language
 				case 'ru': return {
 					round: 'Раунд',
-					startTheGameButtonLabel: 'Начать игру',
+					startTheGameButtonLabel: 'Начать новую игру',
 					youLostAlert: `Вы проиграли в ${roundNumber} раунде`,
+					tryLostRoundButtonLabel: 'Попробовать раунд ещё раз',
 					repeatHighlightButtonLabel: 'Повторить последовательность',
 					levels: {
 						easy: 'легко',
@@ -144,8 +151,9 @@ export default {
 				}
 				case 'en': return {
 					round: 'Round',
-					startTheGameButtonLabel: 'Start the game',
+					startTheGameButtonLabel: 'Start new game',
 					youLostAlert: `You lost in ${roundNumber} round`,
+					tryLostRoundButtonLabel: 'Try lost round again',
 					repeatHighlightButtonLabel: 'Repeat highlight',
 					levels: {
 						easy: 'easy',
@@ -155,8 +163,9 @@ export default {
 				}
 				default: return {
 					round: 'Раунд',
-					startTheGameButtonLabel: 'Начать игру',
+					startTheGameButtonLabel: 'Начать новую игру',
 					youLostAlert: `Вы проиграли в ${roundNumber} раунде`,
+					tryLostRoundButtonLabel: 'Попробовать раунд ещё раз',
 					repeatHighlightButtonLabel: 'Повторить последовательность',
 					levels: {
 						easy: 'легко',
@@ -283,6 +292,12 @@ export default {
 			this.isUserFail = true;
 			this.setIsGameOn(false);
 		},
+		tryLostRound() {
+			this.isUserFail = false;
+			this.setIsGameOn(true);
+			this.clearUserSelectedSectors();
+			this.highlightSectors();
+		},
 		handleSectorClick(sectorId) {
 			const {gameSelectedSectorsArray: gameSelectedArray,
 				userSelectedSectorsArray: userSelectedArray,
@@ -291,8 +306,9 @@ export default {
 				setUserSelectedSectors,
 				setIsUserFail,
 				startNextRound} = this;
-			if (isHighlighting || !isGameOn) return;
+			if (isHighlighting) return;
 			playAudio(sectorId)
+			if(!isGameOn) return;
 			setUserSelectedSectors(sectorId)
 			setIsUserFail(sectorId)
 			if (!this.isUserFail &&
@@ -361,7 +377,7 @@ export default {
 			}
 		}
 	}
-	.beingHighlighted, .gameNotOn {
+	.beingHighlighted {
 		.sector {
 			cursor: default;
 			&:hover {
